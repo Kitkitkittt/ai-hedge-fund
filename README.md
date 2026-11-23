@@ -63,7 +63,7 @@ Use Python 3.11 as the reference version. [`pyproject.toml`](pyproject.toml) dec
 
 ### Using Docker
 
-The [Dockerfile](docker/Dockerfile) also uses Python 3.11. The [Compose file](docker/docker-compose.yml) and its [shell](docker/run.sh) and [Windows](docker/run.bat) wrappers live under `docker/`, not the repository root. The usage examples below assume an already configured simulation environment. Model and market-data access are separate from offline review.
+The [Dockerfile](docker/Dockerfile) also uses Python 3.11. The [Compose file](docker/docker-compose.yml) and its [shell](docker/run.sh) and [Windows](docker/run.bat) wrappers live under `docker/`, not the repository root. The standard Docker examples below assume an already-built `ai-hedge-fund` image and a configured simulation environment; the normal wrapper launch does not build the image. Image builds, model access, and market-data access are separate from offline review.
 
 ## Offline verification
 
