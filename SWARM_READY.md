@@ -21,7 +21,7 @@ If a `swarm-ready` skill is installed, load it. Otherwise execute the documented
 
 ## Repository starting point
 
-Read: [README.md](README.md), [pyproject.toml](pyproject.toml), [.github](.github).
+Read [Setup](README.md#setup) for the layout and Python requirement, then use [Offline verification](README.md#offline-verification) for docs-only changes.
 
 Continue an existing approved issue or a clearly scoped user objective after inspecting the source map below. If none is selected, return the smallest useful improvement and its verifier as the handoff; do not begin a portfolio-wide rewrite.
 
@@ -41,7 +41,7 @@ The base above is an inspection snapshot, not a permanent working branch. Refres
 
 ## Verification starting point
 
-No executable acceptance command was established by this bounded source inspection. Read `README.md`, `pyproject.toml`, `.github` and record the narrowest existing check before implementation. Do not invent a `test` command or infer that the repository has no tests from this gap. For a documentation-only task, check links, factual source anchors and whitespace; do not build unrelated application code.
+Use the README's path check, inspect [`pyproject.toml`](pyproject.toml) and [`docker/Dockerfile`](docker/Dockerfile) as text, and run `git --no-lazy-fetch diff --check HEAD` on the local edits. The project declares pytest as a development dependency; that declaration is not evidence of a test suite. Do not use the simulator or backtester as a docs check. Imports, dependency installation, provider calls, credentials, and any trading or brokerage activity are outside this check.
 
 ## Required handoff result
 

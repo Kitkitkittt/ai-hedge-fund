@@ -45,6 +45,7 @@ By using this software, you agree to use it solely for learning purposes.
 - [Setup](#setup)
   - [Using Poetry](#using-poetry)
   - [Using Docker](#using-docker)
+- [Offline verification](#offline-verification)
 - [Usage](#usage)
   - [Running the Hedge Fund](#running-the-hedge-fund)
   - [Running the Backtester](#running-the-backtester)
@@ -54,82 +55,25 @@ By using this software, you agree to use it solely for learning purposes.
 
 ## Setup
 
+The CLI and backtester are for educational simulation. If you are only reviewing this checkout, skip environment setup and use [Offline verification](#offline-verification).
+
 ### Using Poetry
 
-Clone the repository:
-```bash
-git clone https://github.com/virattt/ai-hedge-fund.git
-cd ai-hedge-fund
-```
-
-1. Install Poetry (if not already installed):
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
-
-2. Install dependencies:
-```bash
-poetry install
-```
-
-3. Set up your environment variables:
-```bash
-# Create .env file for your API keys
-cp .env.example .env
-```
-
-4. Set your API keys:
-```bash
-# For running LLMs hosted by openai (gpt-4o, gpt-4o-mini, etc.)
-# Get your OpenAI API key from https://platform.openai.com/
-OPENAI_API_KEY=your-openai-api-key
-
-# For running LLMs hosted by groq (deepseek, llama3, etc.)
-# Get your Groq API key from https://groq.com/
-GROQ_API_KEY=your-groq-api-key
-
-# For getting financial data to power the hedge fund
-# Get your Financial Datasets API key from https://financialdatasets.ai/
-FINANCIAL_DATASETS_API_KEY=your-financial-datasets-api-key
-```
+Use Python 3.11 as the reference version. [`pyproject.toml`](pyproject.toml) declares `^3.11` (at least 3.11, below 4.0), and [`poetry.lock`](poetry.lock) records the dependency resolution. With Poetry installed, `poetry install` runs from the repository root. It is not required for source review.
 
 ### Using Docker
 
-1. Make sure you have Docker installed on your system. If not, you can download it from [Docker's official website](https://www.docker.com/get-started).
+The [Dockerfile](docker/Dockerfile) also uses Python 3.11. The [Compose file](docker/docker-compose.yml) and its [shell](docker/run.sh) and [Windows](docker/run.bat) wrappers live under `docker/`, not the repository root. The usage examples below assume an already configured simulation environment. Model and market-data access are separate from offline review.
 
-2. Clone the repository:
+## Offline verification
+
+Start with the [Swarm-ready handoff](SWARM_READY.md). From the repository root, confirm the eight setup and entrypoint paths are tracked:
+
 ```bash
-git clone https://github.com/virattt/ai-hedge-fund.git
-cd ai-hedge-fund
+git --no-lazy-fetch ls-files --error-unmatch -- pyproject.toml poetry.lock docker/Dockerfile docker/docker-compose.yml docker/run.sh docker/run.bat src/main.py src/backtester.py
 ```
 
-3. Set up your environment variables:
-```bash
-# Create .env file for your API keys
-cp .env.example .env
-```
-
-4. Edit the .env file to add your API keys as described above.
-
-5. Navigate to the docker directory:
-```bash
-cd docker
-```
-
-6. Build the Docker image:
-```bash
-# On Linux/Mac:
-./run.sh build
-
-# On Windows:
-run.bat build
-```
-
-**Important**: You must set `OPENAI_API_KEY`, `GROQ_API_KEY`, `ANTHROPIC_API_KEY`, or `DEEPSEEK_API_KEY` for the hedge fund to work.  If you want to use LLMs from all providers, you will need to set all API keys.
-
-Financial data for AAPL, GOOGL, MSFT, NVDA, and TSLA is free and does not require an API key.
-
-For any other ticker, you will need to set the `FINANCIAL_DATASETS_API_KEY` in the .env file.
+Compare the Python requirement with the Docker base image and confirm the example entrypoints are [`src/main.py`](src/main.py) and [`src/backtester.py`](src/backtester.py). This check does not install dependencies, import the package, start containers, run simulations, or contact model or market-data providers.
 
 ## Usage
 
